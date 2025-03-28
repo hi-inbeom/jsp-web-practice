@@ -13,6 +13,7 @@ public class AuthDto {
     private String email;
     private String password;
     private String createdAt;
+    private boolean autoLogin;
     
     // VO -> DTO 변환
     public static AuthDto of(AuthVo authVo) {
@@ -28,4 +29,10 @@ public class AuthDto {
         }
         return authDto;
     }
+    
+	@Override
+	public String toString() {
+		return "AuthDto [id=" + id + ", userId=" + userId + ", email=" + email + ", password=" + password
+				+ ", createdAt=" + createdAt + "]";
+	}
 }

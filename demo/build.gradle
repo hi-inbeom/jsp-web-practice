@@ -26,7 +26,10 @@ repositories {
 dependencies {
     // Spring Boot 기본 웹 모듈 (JSP 지원을 위해 `spring-boot-starter-web`만 추가)
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    
+    // Spring Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-core:6.3.0'
 
     // JSP 및 JSTL 관련 의존성 추가
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper' // JSP 지원

@@ -6,6 +6,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메인 페이지</title>
+    
+    <script>
+    	function logout(event) {
+            event.preventDefault();
+            
+            fetch('/logout', {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = '/';
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                alert('로그아웃 중 오류가 발생했습니다.');
+            });
+    	}
+    
+    </script>
 </head>
 <body>
     <header>
@@ -15,7 +37,9 @@
     <nav>
         <ul>
             <li><a href="/board">게시판</a></li>
-            <li><a href="/mypage">마이페이지</a></li>
+            <c:if test="${not empty loginUser }">
+            	<li><a href="/mypage">마이페이지</a></li>
+            </c:if>
         </ul>
     </nav>
 
@@ -24,7 +48,7 @@
             <c:when test="${not empty loginUser}">
                 <h2>환영합니다, ${loginUser}님!</h2>
                 <p>전자정부프레임워크 기반 웹 서비스에 오신 것을 환영합니다.</p>
-                <form action="/logout" method="post">
+                <form onsubmit="logout(event)">
                     <button type="submit">로그아웃</button>
                 </form>
             </c:when>

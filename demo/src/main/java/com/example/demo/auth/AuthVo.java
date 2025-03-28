@@ -3,13 +3,18 @@ package com.example.demo.auth;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuthVo {
-    private Long id;
+	private Long id;
     private String userId;
     private String email;
     private String password;
@@ -28,4 +33,10 @@ public class AuthVo {
         }
         return authVo;
     }
+
+	@Override
+	public String toString() {
+		return "AuthVo [id=" + id + ", userId=" + userId + ", email=" + email + ", password=" + password
+				+ ", createdAt=" + createdAt + "]";
+	}
 }

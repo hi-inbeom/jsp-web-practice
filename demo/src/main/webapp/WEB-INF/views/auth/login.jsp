@@ -6,10 +6,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
+    
+    <script>
+    	function login(event) {
+    		event.preventDefault();
+    		
+    		const formData = {
+    				userId: document.getElementById('userId').value,
+    				password: document.getElementById('password').value
+    		}
+
+            const jsonData = JSON.stringify(formData);
+    		
+    		fetch('/login', {
+    			method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonData
+    		})
+    		.then(response => response.json())
+    		.then(data => {
+    			if (data.success) {
+    				window.location.href = '/';
+    			} else {
+                    alert(data.message);
+    			}
+    		})
+    		.catch(error => {
+    			alert('로그인 중 오류가 발생했습니다.')
+    		});
+    	}
+    
+    </script>
+    
 </head>
 <body>
     <h2>로그인</h2>
-    <form action="/login" method="post">
+    <form onsubmit="login(event)">
         <div>
             <label for="userId">아이디:</label>
             <input type="text" id="userId" name="userId" required>
@@ -26,10 +60,7 @@
             <button type="submit">로그인</button>
         </div>
         <div>
-            <a href="/findAccount">계정 찾기</a> | <a href="/findPassword">비밀번호 찾기</a>
-        </div>
-        <div>
-            <a href="/signup">회원가입</a>
+            <a href="/findAccount">계정 찾기</a> | <a href="/signup">회원가입</a>
         </div>
     </form>
 </body>

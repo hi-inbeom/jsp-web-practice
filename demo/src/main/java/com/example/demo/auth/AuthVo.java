@@ -14,29 +14,45 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthVo {
-	private Long id;
+	private Long userNo;
     private String userId;
-    private String email;
-    private String password;
+    private String userEmail;
+    private String userNick;
+    private String userPassword;
     private LocalDateTime createdAt;
+    private String userStatus;
+    private String userRole;
     
-    // DTO를 VO로 변환
+ // DTO를 VO로 변환
     public static AuthVo of(AuthDto authDto) {
         AuthVo authVo = new AuthVo();
+        
+        if (authDto.getUserNo() != null) {
+            authVo.setUserNo(Long.parseLong(authDto.getUserNo()));  // String을 Long으로 변환
+        } 
+        
         authVo.setUserId(authDto.getUserId());
-        authVo.setEmail(authDto.getEmail());
-        authVo.setPassword(authDto.getPassword());
+        authVo.setUserEmail(authDto.getUserEmail());
+        authVo.setUserNick(authDto.getUserNick());
+        authVo.setUserPassword(authDto.getUserPassword());
 
+        // 날짜 변환
         if (authDto.getCreatedAt() != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             authVo.setCreatedAt(LocalDateTime.parse(authDto.getCreatedAt(), formatter));
         }
+
+        authVo.setUserStatus(authDto.getUserStatus());
+        authVo.setUserRole(authDto.getUserRole());
+
         return authVo;
     }
 
+
 	@Override
 	public String toString() {
-		return "AuthVo [id=" + id + ", userId=" + userId + ", email=" + email + ", password=" + password
-				+ ", createdAt=" + createdAt + "]";
+		return "AuthVo [userNo=" + userNo + ", userId=" + userId + ", userEmail=" + userEmail + ", userNick=" + userNick
+				+ ", userPassword=" + userPassword + ", createdAt=" + createdAt + ", userStatus=" + userStatus
+				+ ", userRole=" + userRole + "]";
 	}
 }

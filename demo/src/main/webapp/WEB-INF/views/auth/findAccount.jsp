@@ -16,7 +16,7 @@
             
             const jsonData = JSON.stringify(formData);
             
-            fetch('/findAccount', {
+            fetch('/findAccount.au', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -52,7 +52,7 @@
 
             const jsonData = JSON.stringify({ userId, password });
             
-            fetch('/updateAccount', {
+            fetch('/updateAccount.au', {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'

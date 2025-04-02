@@ -26,7 +26,7 @@
             const jsonData = JSON.stringify({ userId, email, password });
 
             // AJAX로 JSON 전송
-            fetch('/signup', {
+            fetch('/signup.au', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

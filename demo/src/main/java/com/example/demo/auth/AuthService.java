@@ -19,17 +19,15 @@ public class AuthService {
     }
     
     public void login(AuthDto authDto)  {
-		AuthVo authVo = AuthVo.of(authDto);
-    	
-    	if (authDao.findByUserId(authVo)==null) {
+		AuthDto loginUser = AuthDto.of(authDao.findByUserId(AuthVo.of(authDto)));
+		
+    	if (loginUser==null) {
     		throw new AuthException("존재하지 않는 아이디");
     	}
     	
-    	AuthDto loginUser= AuthDto.of(authDao.findByUserId(authVo));
-    	
-    	if (!passwordEncoder.matches(authVo.getPassword(), loginUser.getPassword())) {
-    		throw new AuthException("비밀번호 불 일치");
-    	}
+        if (!passwordEncoder.matches(authDto.getUserPassword(), loginUser.getUserPassword())) {
+            throw new AuthException("비밀번호 불 일치");
+        }
     }
     
     @Transactional
@@ -46,7 +44,7 @@ public class AuthService {
     	}
     	
         // 비밀번호 암호화
-    	authVo.setPassword(passwordEncoder.encode(authVo.getPassword()));
+    	authVo.setUserPassword(passwordEncoder.encode(authVo.getUserPassword()));
 
         // DAO를 통해 회원 정보 저장
         authDao.insertAuth(authVo);
@@ -71,7 +69,7 @@ public class AuthService {
     		throw new AuthException("존재하지 않는 아이디");
 		}
 
-    	authVo.setPassword(passwordEncoder.encode(authVo.getPassword()));
+    	authVo.setUserPassword(passwordEncoder.encode(authVo.getUserPassword()));
 		authDao.updateByUserId(authVo);
 	}
 

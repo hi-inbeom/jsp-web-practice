@@ -22,7 +22,7 @@
 	
 	    const jsonData = JSON.stringify({ userId, password });
 	
-	    fetch('/updateAccount', {
+	    fetch('/updateAccount.au', {
 	        method: 'PATCH',
 	        headers: {
 	            'Content-Type': 'application/json'
@@ -49,7 +49,7 @@
 	
 	    const jsonData = JSON.stringify({ userId });
 	
-	    fetch('/deleteAccount', {
+	    fetch('/deleteAccount.au', {
 	        method: 'DELETE',
 	        headers: {
 	            'Content-Type': 'application/json'

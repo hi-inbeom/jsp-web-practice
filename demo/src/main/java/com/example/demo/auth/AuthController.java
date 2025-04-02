@@ -48,10 +48,11 @@ public class AuthController {
     
     /* ================================================ */
     
-    @PostMapping("/login")
+    @PostMapping("/login.au")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> login(@RequestBody AuthDto authDto, HttpSession httpSession, HttpServletResponse response) {
     	try {
+    		System.out.println("???");
     		authService.login(authDto);
     		
     		if (authDto.isAutoLogin()) {
@@ -70,7 +71,7 @@ public class AuthController {
     	}
     }
     
-    @PostMapping("/logout")
+    @PostMapping("/logout.au")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> logout(HttpSession httpSession) {
     	try {
@@ -81,7 +82,7 @@ public class AuthController {
     	}
     }
     
-    @PostMapping("/findAccount")
+    @PostMapping("/findAccount.au")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> findAccount(@RequestBody AuthDto authDto) {
     	try {
@@ -97,7 +98,7 @@ public class AuthController {
     	}
     }
 
-    @PatchMapping("/updateAccount")
+    @PatchMapping("/updateAccount.au")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> updateAccount(@RequestBody AuthDto authDto, HttpSession httpSession) {
     	try {
@@ -116,7 +117,7 @@ public class AuthController {
 
 
     
-    @PostMapping("/signup")
+    @PostMapping("/signup.au")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> signUp(@RequestBody AuthDto authDto, HttpSession httpSession) throws Exception {        
         try {
@@ -128,7 +129,7 @@ public class AuthController {
         }
     }
     
-    @DeleteMapping("/deleteAccount")
+    @DeleteMapping("/deleteAccount.au")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> deleteAccount(@RequestBody AuthDto authDto, HttpSession httpSession) throws Exception {
     	try {
@@ -139,6 +140,5 @@ public class AuthController {
             return ResponseEntity.badRequest().body(Collections.singletonMap("message", e.getMessage()));
 		}
     }
-    
 
 }

@@ -13,12 +13,12 @@
     		
     		const formData = {
     				userId: document.getElementById('userId').value,
-    				password: document.getElementById('password').value
+    				userPassword: document.getElementById('userPassword').value
     		}
 
             const jsonData = JSON.stringify(formData);
     		
-    		fetch('/login', {
+    		fetch('/login.au', {
     			method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -34,7 +34,8 @@
     			}
     		})
     		.catch(error => {
-    			alert('로그인 중 오류가 발생했습니다.')
+    			alert('로그인 중 오류가 발생했습니다.');
+    			console.log(error);
     		});
     	}
     
@@ -49,8 +50,8 @@
             <input type="text" id="userId" name="userId" required>
         </div>
         <div>
-            <label for="password">비밀번호:</label>
-            <input type="password" id="password" name="password" required>
+            <label for="userPassword">비밀번호:</label>
+            <input type="password" id="userPassword" name="userPassword" required>
         </div>
         <div>
             <label for="autoLogin">자동 로그인:</label>

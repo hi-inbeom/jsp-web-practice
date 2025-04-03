@@ -29,22 +29,23 @@ public class BoardController {
 	
 	// 게시물 가져오기
 	@GetMapping("/board")
-	String board(@RequestParam(value="pno", defaultValue="1") int currentPage, Model model) {
+	String board(Model model) {
 		// 전체 게시물 수
-		int listCount = boardService.selectListCount();
+//		int listCount = boardService.selectListCount();
+		int listCount = 101;
 		// 페이지 네이션에 표시될 페이지 수
 		int pageLimit = 10;
 		// 한 페이지에 들어갈 게시물 수
 		int boardLimit = 10;
-		
+		int currentPage = 1;
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
-		
+
 		ArrayList<BoardDto> boardList = boardService.selectList(pi);
-		
+
 		model.addAttribute("pi", pi);
 		model.addAttribute("boardList", boardList);
-		
+
 		return "board/list";
 	}
 	

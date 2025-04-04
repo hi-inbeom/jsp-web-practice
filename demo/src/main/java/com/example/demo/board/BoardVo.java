@@ -16,8 +16,8 @@ public class BoardVo {
 	private String boardTitle;
 	private String boardContent;
 	private String boardDate;
+	private boolean boardStatus;
 	private int boardViews;
-	private int boardLikes;
 	private int boardWriter;
 	
     // BoardDto -> BoardVo 변환
@@ -28,8 +28,8 @@ public class BoardVo {
         boardVo.setBoardTitle(boardDto.getBoardTitle());
         boardVo.setBoardContent(boardDto.getBoardContent());
         boardVo.setBoardDate(boardDto.getBoardDate());
+        boardVo.setBoardStatus(Boolean.parseBoolean(boardDto.getBoardStatus()));
         boardVo.setBoardViews(Integer.parseInt(boardDto.getBoardViews())); // String -> int
-        boardVo.setBoardLikes(Integer.parseInt(boardDto.getBoardLikes())); // String -> int
         boardVo.setBoardWriter(Integer.parseInt(boardDto.getBoardWriter())); // String -> int
         
         return boardVo;

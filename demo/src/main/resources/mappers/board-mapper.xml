@@ -12,17 +12,23 @@
 	    <result property="boardWriter" column="board_writer"/>
 	</resultMap>
 
-	<select id="selectALL" resultType="int">
+	<select id="selectListCount" resultType="int">
 		SELECT COUNT(board_status)
 		FROM board
 	</select>
 	
+    <select id="selectAll" parameterType="map" resultMap="BoardResultSet">
+        SELECT * 
+        FROM board 
+        ORDER BY board_no DESC
+        LIMIT #{boardLimit} OFFSET #{startRow}
+    </select>
+	
 	<select id="selectByIndex" parameterType="int" resultMap="BoardResultSet">
 		SELECT b.board_no, b.board_title, b.board_content, b.board_date, 
-		       b.board_status, b.board_writer, v.view_count, l.like_count
+		       b.board_status, b.board_writer, v.view_count
 		FROM board b
 		LEFT JOIN board_views v on v.board_no = b.board_no
-		LEFT JOIN board_likes l on l.board_no = b.board_no
 		WHERE b.board_no = #{bno};
 	</select>
 	

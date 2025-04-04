@@ -1,7 +1,7 @@
 package com.example.demo.board;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -29,19 +29,18 @@ public class BoardController {
 	
 	// 게시물 가져오기
 	@GetMapping("/board")
-	String board(Model model) {
+	String board(@RequestParam(value = "pno", required = false, defaultValue = "1") int pno, Model model) {
 		// 전체 게시물 수
-//		int listCount = boardService.selectListCount();
-		int listCount = 101;
+		int listCount = boardService.selectListCount();
 		// 페이지 네이션에 표시될 페이지 수
 		int pageLimit = 10;
 		// 한 페이지에 들어갈 게시물 수
 		int boardLimit = 10;
-		int currentPage = 1;
+		int currentPage = pno;
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 
-		ArrayList<BoardDto> boardList = boardService.selectList(pi);
+		List<BoardDto> boardList = boardService.selectAll(pi);
 
 		model.addAttribute("pi", pi);
 		model.addAttribute("boardList", boardList);

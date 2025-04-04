@@ -1,6 +1,6 @@
 package com.example.demo.board;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -18,11 +18,16 @@ public class BoardService {
 	private final BoardDao boardDao;
 
 	public int selectListCount() {
-		return boardDao.selectAll();
+		return boardDao.selectListCount();
 	}
 
-	public ArrayList<BoardDto> selectList(PageInfo pi) {
-		return null;
+	public List<BoardDto> selectAll(PageInfo pi) {
+		// offset
+	    int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+	    // limit
+	    int boardLimit = pi.getBoardLimit();
+
+	    return boardDao.selectAll(startRow, boardLimit);
 	}
 
 	public BoardDto selectByIndex(int bno) {

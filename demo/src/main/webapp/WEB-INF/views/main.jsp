@@ -36,7 +36,7 @@
     
     <nav>
         <ul>
-            <li><a href="/board">게시판</a></li>
+            <li><a href="/board?pno=1">게시판</a></li>
             <c:if test="${not empty loginUser }">
             	<li><a href="/mypage">마이페이지</a></li>
             </c:if>

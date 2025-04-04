@@ -41,6 +41,13 @@
             max-width: 900px;
             margin: 0 auto;
         }
+        
+        .pagination .page-item.disabled .page-link .page-link.active {
+		    pointer-events: none; /* 클릭 비활성화 */
+		    background-color: #e9ecef; /* 회색 배경 */
+		    color: #6c757d; /* 글자색 변경 */
+		    border-color: #dee2e6; /* 테두리 색 변경 */
+		}
     </style>
 </head>
 <body>
@@ -76,26 +83,24 @@
                         <th style="width: 100px">작성자</th>
                         <th style="width: 100px">작성일</th>
                         <th style="width: 100px">조회수</th>
-                        <th style="width: 100px">추천수</th>
                     </tr>
                 </thead>
                 <tbody>
                     <c:choose>
                         <c:when test="${not empty boardList}">
-                            <c:forEach var="board" items="${boardList}">
+                            <c:forEach var="board" items="${boardList}" varStatus="status">
                                 <tr>
-                                    <td>${board.id}</td>
-                                    <td><a href="detail?id=${board.id}">${board.title}</a></td>
-                                    <td>${board.author}</td>
-                                    <td>${board.createdAt}</td>
-                                    <td>${board.viewCount}</td>
-                                    <td>${board.likeCount}</td>
+        							<td>${pi.listCount - ((pi.currentPage - 1) * pi.boardLimit + status.index)}</td>
+                                    <td><a href="detail?id=${board.boardNo}">${board.boardTitle}</a></td>
+                                    <td>${board.boardWriter}</td>
+                                    <td>${board.boardDate}</td>
+                                    <td>${board.boardViews}</td>
                                 </tr>
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
                             <tr>
-                                <td colspan="6" class="text-center text-muted">게시글이 없습니다.</td>
+                                <td colspan="5" class="text-center text-muted">게시글이 없습니다.</td>
                             </tr>
                         </c:otherwise>
                     </c:choose>
@@ -105,22 +110,26 @@
             <!-- 페이지네이션 -->
             <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                        <a class="page-link" href="<c:url value='/board?pno=${pi.startPage-1}&searchType=${param.searchType}&keyword=${param.keyword}'/>" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    
-                    <c:forEach begin="${pi.startPage}" end="${pi.endPage}" var="pageNum">
-                        <li class="page-item <c:if test='${pageNum eq pi.currentPage}'>active</c:if>'">
-                            <a class="page-link" href="<c:url value='/board?pno=${pageNum}&searchType=${param.searchType}&keyword=${param.keyword}'/>">${pageNum}</a>
-                        </li>
-                    </c:forEach>
-                    <li class="page-item">
-                        <a class="page-link" href="<c:url value='/board?pno=${pi.endPage+1}&searchType=${param.searchType}&keyword=${param.keyword}'/>" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
+					<!-- 이전 페이지 -->
+					<li class="page-item'">
+					    <a class="page-link <c:if test='${pi.currentPage == 1}'>disabled</c:if>" href="<c:if test='${pi.currentPage > 1}'><c:url value='/board?pno=${pi.currentPage-1}&keyword=${param.keyword}'/></c:if>" aria-label="Previous">
+					        <span aria-hidden="true">&laquo;</span>
+					    </a>
+					</li>
+					
+					<!-- 페이지 번호 -->
+					<c:forEach begin="${pi.startPage}" end="${pi.endPage}" var="pageNum">
+					    <li class="page-item">
+					        <a class="page-link <c:if test='${pageNum == pi.currentPage}'>active</c:if>'" href="<c:url value='/board?pno=${pageNum}&keyword=${param.keyword}'/>">${pageNum}</a>
+					    </li>
+					</c:forEach>
+					
+					<!-- 다음 페이지 -->
+					<li class="page-item">
+					    <a class="page-link <c:if test='${pi.currentPage == pi.maxPage}'>disabled</c:if>" href="<c:if test='${pi.currentPage < pi.maxPage}'><c:url value='/board?pno=${pi.currentPage+1}&keyword=${param.keyword}'/></c:if>" aria-label="Next">
+					        <span aria-hidden="true">&raquo;</span>
+					    </a>
+					</li>
                 </ul>
             </nav>
         </div>

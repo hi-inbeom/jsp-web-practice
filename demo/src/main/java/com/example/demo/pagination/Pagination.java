@@ -5,6 +5,7 @@ public class Pagination {
 		// 페이지네이션의 최대 페이지 계산식
 		// Math.ceil()은 올림 처리를 하여 최대 페이지 수를 계산합니다.
 		int maxPage = (int)Math.ceil((double)listCount/boardLimit);
+		if (maxPage==0) { maxPage=1; }
 		
 		// 현재 페이지를 기준으로 보여줄 페이지 번호 계산식
 		int startPage = currentPage - (currentPage % pageLimit) + 1;

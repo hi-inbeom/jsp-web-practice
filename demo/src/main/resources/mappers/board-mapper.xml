@@ -12,23 +12,35 @@
 	    <result property="boardWriter" column="board_writer"/>
 	</resultMap>
 
-	<select id="selectListCount" resultType="int">
-		SELECT COUNT(board_status)
-		FROM board
+	<select id="selectListCount" parameterType="String" resultType="int">
+		SELECT COUNT(b.board_status)
+		FROM board b
+    	<where>
+    		b.board_status = 'Y'
+   	   		<if test="keyword != null and keyword != ''">
+   		         AND b.board_title LIKE CONCAT('%', #{keyword}, '%')
+	        </if>
+	    </where>
 	</select>
 	
     <select id="selectAll" parameterType="map" resultMap="BoardResultSet">
-        SELECT * 
-        FROM board 
-        ORDER BY board_no DESC
+        SELECT b.board_no, b.board_title, b.board_content, b.board_date, a.user_id as board_writer
+        FROM board b 
+		LEFT JOIN auth a ON b.board_writer = a.user_no 
+        WHERE b.board_status = 'Y'
+	   	<if test="keyword != null and keyword != ''">
+ 			AND b.board_title LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        ORDER BY b.board_no DESC
         LIMIT #{boardLimit} OFFSET #{startRow}
     </select>
 	
 	<select id="selectByIndex" parameterType="int" resultMap="BoardResultSet">
 		SELECT b.board_no, b.board_title, b.board_content, b.board_date, 
-		       b.board_status, b.board_writer, v.view_count
+		       b.board_status, a.user_id as board_writer, v.view_count
 		FROM board b
-		LEFT JOIN board_views v on v.board_no = b.board_no
+		LEFT JOIN board_views v ON v.board_no = b.board_no
+		LEFT JOIN auth a ON b.board_writer = a.user_no 
 		WHERE b.board_no = #{bno};
 	</select>
 	
@@ -39,7 +51,7 @@
 	
 	<update id="updateBoardByIndex" parameterType="com.example.demo.board.BoardVo">
 		UPDATE board
-		SET board_title=#{boardTitle}, board_content=#{boardContent}, board_date=#{boardDate}
+		SET board_title=#{boardTitle}, board_content=#{boardContent}
 		WHERE board_no=#{boardNo}
 	</update>
 	

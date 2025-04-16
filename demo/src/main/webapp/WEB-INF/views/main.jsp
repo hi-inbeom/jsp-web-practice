@@ -46,7 +46,7 @@
     <main>
         <c:choose>
             <c:when test="${not empty loginUser}">
-                <h2>환영합니다, ${loginUser}님!</h2>
+                <h2>환영합니다, ${loginUser.userNick}님!</h2>
                 <p>전자정부프레임워크 기반 웹 서비스에 오신 것을 환영합니다.</p>
                 <form onsubmit="logout(event)">
                     <button type="submit">로그아웃</button>

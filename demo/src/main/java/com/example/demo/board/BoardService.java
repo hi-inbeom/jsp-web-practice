@@ -17,44 +17,57 @@ import lombok.AllArgsConstructor;
 public class BoardService {
 	private final BoardDao boardDao;
 
-	public int selectListCount() {
-		return boardDao.selectListCount();
+	public int selectListCount(String keyword) {
+		return boardDao.selectListCount(keyword);
 	}
 
-	public List<BoardDto> selectAll(PageInfo pi) {
+	public List<BoardDto> selectAll(PageInfo pi, String keyword) {
 		// offset
 	    int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 	    // limit
 	    int boardLimit = pi.getBoardLimit();
 
-	    return boardDao.selectAll(startRow, boardLimit);
+	    return boardDao.selectAll(startRow, keyword, boardLimit);
 	}
 
 	public BoardDto selectByIndex(int bno) {
-		return boardDao.selectByIndex(bno);
+		return BoardDto.of(boardDao.selectByIndex(bno));
 	}
 
-	public void write(BoardDto boardDto) {
+	public void write(BoardDto boardDto, HttpSession httpSession) {
+		boardDto.setBoardWriter(getUserInfo(httpSession));
 		boardDao.insert(BoardVo.of(boardDto));
 		
 	}
 
-	public void update(BoardDto boardDto, HttpSession httpSession, Model model) {
-//		BoardDto boardDto = (BoardDto) model.getAttribute("board");
-//		AuthDto authDto = (AuthDto) httpSession.getAttribute("loginUser");
-//		if (!(boardDto.getBoardWriter().equals(authDto.getUserNo()))) {
-//			throw new AuthException("작성자가 다름");
-//		}
+	public void update(BoardDto boardDto, HttpSession httpSession) {
+		boardDto.setBoardWriter(getUserInfo(httpSession));
 		boardDao.update(BoardVo.of(boardDto));
 	}
 
-	public void delete(int bno, HttpSession httpSession, Model model) {
-		BoardDto boardDto = (BoardDto) model.getAttribute("board");
+	public void delete(int bno, HttpSession httpSession) {
+//		if (boardAuthCheck(httpSession, boardDto)) {
+			boardDao.delete(bno);
+//		}
+	}
+	
+//	public boolean boardAuthCheck(HttpSession httpSession, BoardDto boardDto) {
+//		AuthDto authDto = (AuthDto) httpSession.getAttribute("loginUser");
+//		System.out.println(boardDto.toString());
+//		System.out.println(authDto.toString());
+//		if (!(boardDto.getBoardWriter().equals(authDto.getUserNo()))) {
+//			throw new AuthException("작성자가 다름");
+//		}
+//		return true;
+//	}
+	
+	
+	private String getUserInfo(HttpSession httpSession) {
 		AuthDto authDto = (AuthDto) httpSession.getAttribute("loginUser");
-		if (!(boardDto.getBoardWriter().equals(authDto.getUserNo()))) {
-			throw new AuthException("작성자가 다름");
+		if (authDto == null) {
+			throw new AuthException("미 로그인");
 		}
-		boardDao.delete(bno);
+		return authDto.getUserNo();
 	}
 
 }

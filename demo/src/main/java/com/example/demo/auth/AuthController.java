@@ -53,7 +53,7 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> login(@RequestBody AuthDto authDto, HttpSession httpSession, HttpServletResponse response) {
     	try {
     		System.out.println("???");
-    		authService.login(authDto);
+    		AuthDto loginUser = authService.login(authDto);
     		
     		if (authDto.isAutoLogin()) {
                 Cookie loginCookie = new Cookie("userId", authDto.getUserId());
@@ -64,7 +64,7 @@ public class AuthController {
                 response.addCookie(loginCookie); // 쿠키 추가
     		}
     		
-        	httpSession.setAttribute("loginUser", authDto.getUserId());
+        	httpSession.setAttribute("loginUser", loginUser);
             return ResponseEntity.ok(Collections.singletonMap("success", true));
     	} catch (Exception e) {
             return ResponseEntity.badRequest().body(Collections.singletonMap("message", e.getMessage()));

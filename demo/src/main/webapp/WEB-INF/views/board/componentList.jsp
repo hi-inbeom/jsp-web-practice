@@ -30,17 +30,6 @@
 		    white-space: nowrap; /* 버튼 내부 글자가 줄바꿈되지 않도록 */
 		}
         
-        
-        
-        .board-container {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        
         .table-header th {
         	text-align: center;
         }
@@ -120,11 +109,8 @@
 	 	window.location.href = "/board?" + params.toString();
 	}
 
-	function showWrite() {
-		window.location.href = '/board/write' + window.location.search;
-	}
-	
 	function showDetail(boardNo) {
+	   /*  sessionStorage.setItem("boardListQuery", window.location.search); */
 		window.location.href = '/board/' + boardNo + window.location.search;
 	}
 </script>
@@ -149,11 +135,9 @@
 			</div>
 			
             <!-- 글쓰기 버튼 -->
-            <c:if test="${loginUser!=null}">
-	            <div class="d-grid d-md-flex justify-content-md-end mt-3">
-	                <a href="javascript:void(0)" onclick="showWrite()" class="btn btn-primary">글쓰기</a>
-	            </div>
-            </c:if>
+            <div class="d-grid d-md-flex justify-content-md-end mt-3">
+                <a href="<c:url value='/board/write'/>" class="btn btn-primary">글쓰기</a>
+            </div>
             
             <!-- 게시글 -->
             <table class="table table-bordered">

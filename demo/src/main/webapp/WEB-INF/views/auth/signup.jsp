@@ -115,7 +115,6 @@
             // JSON 데이터로 변환
             const jsonData = JSON.stringify({ userId, email, password });
 
-            // AJAX로 JSON 전송
             fetch('/signup.au', {
                 method: 'POST',
                 headers: {

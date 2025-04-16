@@ -18,16 +18,18 @@ public class AuthService {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
     
-    public void login(AuthDto authDto)  {
-		AuthDto loginUser = AuthDto.of(authDao.findByUserId(AuthVo.of(authDto)));
-		
-    	if (loginUser==null) {
+    public AuthDto login(AuthDto authDto)  {
+    	AuthVo userInfo = authDao.findByUserId(AuthVo.of(authDto));
+    	
+    	if (userInfo==null) {
     		throw new AuthException("존재하지 않는 아이디");
     	}
-    	
+		AuthDto loginUser = AuthDto.of(userInfo);
         if (!passwordEncoder.matches(authDto.getUserPassword(), loginUser.getUserPassword())) {
             throw new AuthException("비밀번호 불 일치");
         }
+        
+        return loginUser;
     }
     
     @Transactional

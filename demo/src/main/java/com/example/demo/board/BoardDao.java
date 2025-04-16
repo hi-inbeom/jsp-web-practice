@@ -15,24 +15,24 @@ import lombok.AllArgsConstructor;
 public class BoardDao {
 	private final SqlSessionTemplate sqlSession;
 
-	public int selectListCount() {
-		return sqlSession.selectOne("boardMapper.selectListCount", null);
+	public int selectListCount(String keyword) {
+		return sqlSession.selectOne("boardMapper.selectListCount", keyword);
 	}
 	
-	public List<BoardDto> selectAll(int startRow, int boardLimit) {
-	    Map<String, Integer> params = new HashMap<>();
+	public List<BoardDto> selectAll(int startRow, String keyword, int boardLimit) {
+	    Map<String, Object> params = new HashMap<>();
 	    params.put("startRow", startRow);
+	    params.put("keyword", keyword);
 	    params.put("boardLimit", boardLimit);
 		return sqlSession.selectList("boardMapper.selectAll", params);
 	}
 
-	public BoardDto selectByIndex(int bno) {
+	public BoardVo selectByIndex(int bno) {
 		return sqlSession.selectOne("boardMapper.selectByIndex", bno);
 	}
 
 	public void insert(BoardVo boardVo) {
 		sqlSession.insert("boardMapper.insertBoard", boardVo);
-		
 	}
 
 	public void update(BoardVo boardVo) {

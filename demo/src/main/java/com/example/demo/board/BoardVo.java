@@ -18,20 +18,27 @@ public class BoardVo {
 	private String boardDate;
 	private boolean boardStatus;
 	private int boardViews;
-	private int boardWriter;
+	private String boardWriter;
 	
     // BoardDto -> BoardVo 변환
     public static BoardVo of(BoardDto boardDto) {
         BoardVo boardVo = new BoardVo();
         
-        boardVo.setBoardNo(Integer.parseInt(boardDto.getBoardNo())); // String -> int
+        if (boardDto.getBoardNo() != null)
+            boardVo.setBoardNo(Integer.parseInt(boardDto.getBoardNo()));
+        
         boardVo.setBoardTitle(boardDto.getBoardTitle());
         boardVo.setBoardContent(boardDto.getBoardContent());
         boardVo.setBoardDate(boardDto.getBoardDate());
-        boardVo.setBoardStatus(Boolean.parseBoolean(boardDto.getBoardStatus()));
-        boardVo.setBoardViews(Integer.parseInt(boardDto.getBoardViews())); // String -> int
-        boardVo.setBoardWriter(Integer.parseInt(boardDto.getBoardWriter())); // String -> int
-        
+
+        if (boardDto.getBoardStatus() != null)
+            boardVo.setBoardStatus(Boolean.parseBoolean(boardDto.getBoardStatus()));
+
+        if (boardDto.getBoardViews() != null)
+            boardVo.setBoardViews(Integer.parseInt(boardDto.getBoardViews()));
+
+        boardVo.setBoardWriter(boardDto.getBoardWriter());
+
         return boardVo;
     }
 }

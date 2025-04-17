@@ -52,7 +52,6 @@ public class AuthController {
     @ResponseBody
     public ResponseEntity<Map<String, Object>> login(@RequestBody AuthDto authDto, HttpSession httpSession, HttpServletResponse response) {
     	try {
-    		System.out.println("???");
     		AuthDto loginUser = authService.login(authDto);
     		
     		if (authDto.isAutoLogin()) {

@@ -17,7 +17,7 @@ public class BoardDto {
 	private String boardContent;
 	private String boardDate;
 	private String boardStatus;
-	private String boardViews;
+	private String boardView;
 	private String boardWriter;
 	
     // BoardVo -> BoardDto 변환
@@ -29,7 +29,7 @@ public class BoardDto {
         boardDto.setBoardContent(boardVo.getBoardContent());
         boardDto.setBoardDate(boardVo.getBoardDate());
         boardDto.setBoardStatus(String.valueOf(boardVo.isBoardStatus()));
-        boardDto.setBoardViews(String.valueOf(boardVo.getBoardViews())); // int -> String
+        boardDto.setBoardView(String.valueOf(boardVo.getBoardView())); // int -> String
         boardDto.setBoardWriter(String.valueOf(boardVo.getBoardWriter())); // int -> String
         
         return boardDto;

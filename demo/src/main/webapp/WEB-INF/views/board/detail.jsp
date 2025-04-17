@@ -169,7 +169,7 @@ h2 {
 
 		<div class="detail-meta">
 			<div>작성자 : ${board.boardWriter}</div>
-			<div>조회수 : ${board.boardViews}</div>
+			<div>조회수 : ${board.boardView}</div>
 			<div>작성일 : ${board.boardDate}</div>
 		</div>
 

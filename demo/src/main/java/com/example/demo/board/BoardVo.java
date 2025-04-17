@@ -17,7 +17,7 @@ public class BoardVo {
 	private String boardContent;
 	private String boardDate;
 	private boolean boardStatus;
-	private int boardViews;
+	private int boardView;
 	private String boardWriter;
 	
     // BoardDto -> BoardVo 변환
@@ -34,8 +34,8 @@ public class BoardVo {
         if (boardDto.getBoardStatus() != null)
             boardVo.setBoardStatus(Boolean.parseBoolean(boardDto.getBoardStatus()));
 
-        if (boardDto.getBoardViews() != null)
-            boardVo.setBoardViews(Integer.parseInt(boardDto.getBoardViews()));
+        if (boardDto.getBoardView() != null)
+            boardVo.setBoardView(Integer.parseInt(boardDto.getBoardView()));
 
         boardVo.setBoardWriter(boardDto.getBoardWriter());
 

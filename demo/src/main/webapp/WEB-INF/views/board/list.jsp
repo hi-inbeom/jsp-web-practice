@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -9,90 +10,171 @@
     <title>게시판</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #f4f4f4;
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-        }
-        .search-container {
-		    display: flex;
-		    align-items: center;
-		    gap: 8px; /* 요소 간 간격 */
-		}
-		
-		.search-container input {
-		    flex-grow: 1; /* 가변 크기 */
-		    min-width: 150px; /* 최소 너비 설정 */
-		}
-		
-		.search-container button {
-		    height: 100%; /* 버튼 높이 input과 맞추기 */
-		    white-space: nowrap; /* 버튼 내부 글자가 줄바꿈되지 않도록 */
-		}
-        
-        
-        
-        .board-container {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        
-        .table-header th {
-        	text-align: center;
-        }
-          /* tr 호버 시 배경색 변경 */
-		 tbody tr:hover {
-		   background-color: #f5f5f5;
-		 }
-		
-		 /* 번호 가운데 정렬 */
-		 .list-no,
-		 .list-view,
-		 .list-writer {
-		   text-align: center;
-		 }
-		 
-		 .list-no {
-		 	max-width: 30px;
-		 }
-		 .list-title {
-		 	max-width: 10px;
-		 }
-		 .list-writer {
-		 	max-width: 10px;
-		 }
-		 .list-date {
-		 	max-width: 10px;
-		 }
-		 .list-view {
-		 	max-width: 10px;
-	 	}
-		 
-		
-		 .list-title,
-		 .list-writer,
-		 .list-date,
-		 .list-view {
-		   white-space: nowrap;
-		   overflow: hidden;
-		   text-overflow: ellipsis;
-		 }
-        
-        
-        
-        
-        .pagination .page-item.disabled .page-link .page-link.active {
-		    pointer-events: none; /* 클릭 비활성화 */
-		    background-color: #e9ecef; /* 회색 배경 */
-		    color: #6c757d; /* 글자색 변경 */
-		    border-color: #dee2e6; /* 테두리 색 변경 */
+body {
+    background-color: #f4f4f4;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* 요소 간 간격 */
+}
+
+.search-container input {
+    flex-grow: 1; /* 가변 크기 */
+    min-width: 150px; /* 최소 너비 설정 */
+}
+
+.search-container button {
+    height: 100%; /* 버튼 높이 input과 맞추기 */
+    white-space: nowrap; /* 버튼 내부 글자가 줄바꿈되지 않도록 */
+}
+
+.board-container {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* 게시판 헤더 스타일 */
+.board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eee;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    gap: 5px;
+}
+
+.board-header span {
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 게시판 리스트 스타일 */
+.board-list {
+    margin-top: 1rem;
+}
+
+.board-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.board-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.board-item:hover {
+    background-color: #f5f5f5;
+}
+
+.board-link:visited .board-item {
+    color: #949494;
+}
+
+.board-header span,
+.board-item span {
+    flex-basis: 100%;
+}
+
+.board-item {
+    gap: 5px;
+}
+
+.list-no {
+	max-width:50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+.list-title {
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+}
+
+.list-writer {
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width:100px;
+}
+
+.list-date {
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    max-width: 120px;
+}
+
+.list-view {
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    max-width:70px;
+}
+
+.pagination {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.pagination-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.page-item {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.page-link {
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    background-color: #e9ecef;
+    pointer-events: none;
+}
+
+.page-item.active .page-link {
+    background-color: #007bff;
+    color: #fff;
+}
+rder-color: #dee2e6; /* 테두리 색 변경 */
 		}
     </style>
-    
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/favicon.js"></script>
+<link id="favicon" rel="icon" href="/favicon.ico">
 <script>
 	function addSearch(event) {
 	    event.preventDefault();
@@ -156,39 +238,39 @@
             </c:if>
             
             <!-- 게시글 -->
-            <table class="table table-bordered">
-            	<!-- 게시판 헤더 // 게시판 상단 정보 -->
-                <thead class="table-dark">
-                    <tr class="table-header">
-                        <th style="width: 100px">번호</th>
-                        <th>제목</th>
-                        <th style="width: 100px">작성자</th>
-                        <th style="width: 100px">작성일</th>
-                        <th style="width: 100px">조회수</th>
-                    </tr>
-                </thead>
-                <!-- 게시판 글 목록 -->
-                <tbody>
-                    <c:choose>
-                        <c:when test="${not empty boardList}">
-                            <c:forEach var="board" items="${boardList}" varStatus="status">
-    							<tr onclick="showDetail(${board.boardNo})" style="cursor: pointer;">
-        							<td class="list-no">${pi.listCount - ((pi.currentPage - 1) * pi.boardLimit + status.index)}</td>
-									<td class="list-title">${board.boardTitle}</td>
-									<td class="list-writer">${board.boardWriter}</td>
-									<td class="list-date">${board.boardDate}</td>
-									<td class="list-view">${board.boardViews}</td>
-                                </tr>
-                            </c:forEach>
-                        </c:when>
-                        <c:otherwise>
-                            <tr>
-                                <td colspan="5" class="text-center text-muted">게시글이 없습니다.</td>
-                            </tr>
-                        </c:otherwise>
-                    </c:choose>
-                </tbody>
-            </table>
+		    <div class="board-header">
+		        <span class="list-no">번호</span>
+		        <span class="list-title">제목</span>
+		        <span class="list-writer">작성자</span>
+		        <span class="list-date">작성일</span>
+		        <span class="list-view">조회수</span>
+		    </div>
+		
+		    <div class="board-list">
+		        <c:choose>
+		            <c:when test="${not empty boardList}">
+		                <c:forEach var="board" items="${boardList}" varStatus="status">
+		                    <!-- a 태그로 감싸서 링크 방문 후 visited 스타일 적용 -->
+		                    <a href="/board/${board.boardNo}" class="board-link">
+		                        <div class="board-item">
+		                            <span class="list-no">
+		                                ${pi.listCount - ((pi.currentPage - 1) * pi.boardLimit + status.index)}
+		                            </span>
+		                            <span class="list-title">${board.boardTitle}</span>
+		                            <span class="list-writer">${board.boardWriter}</span>
+						            <fmt:parseDate value="${board.boardDate}" pattern="yyyy-MM-dd HH:mm" var="parsedDate" />
+						            <fmt:formatDate value="${parsedDate}" pattern="yy.MM.dd HH.mm" var="formattedDate" />
+									<span class="list-date">${formattedDate}</span>
+		                            <span class="list-view">${board.boardView}</span>
+		                        </div>
+		                    </a>
+		                </c:forEach>
+		            </c:when>
+		            <c:otherwise>
+		                <div class="board-item text-center text-muted">게시글이 없습니다.</div>
+		            </c:otherwise>
+		        </c:choose>
+		    </div>
             
             <!-- 페이지네이션 -->
             <nav aria-label="Page navigation">

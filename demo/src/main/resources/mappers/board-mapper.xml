@@ -7,8 +7,7 @@
 	    <result property="boardContent" column="board_content"/>
 	    <result property="boardDate" column="board_date"/>
 	    <result property="boardStatus" column="board_status"/>
-	    <result property="boardViews" column="view_count"/>
-	    <result property="boardLikes" column="like_count"/>
+	    <result property="boardView" column="board_view"/>
 	    <result property="boardWriter" column="board_writer"/>
 	</resultMap>
 
@@ -24,8 +23,9 @@
 	</select>
 	
     <select id="selectAll" parameterType="map" resultMap="BoardResultSet">
-        SELECT b.board_no, b.board_title, b.board_content, b.board_date, a.user_id as board_writer
+        SELECT b.board_no, b.board_title, b.board_content, b.board_date, a.user_id as board_writer, v.view_count as board_view
         FROM board b 
+		LEFT JOIN board_view v ON v.board_no = b.board_no
 		LEFT JOIN auth a ON b.board_writer = a.user_no 
         WHERE b.board_status = 'Y'
 	   	<if test="keyword != null and keyword != ''">
@@ -37,12 +37,18 @@
 	
 	<select id="selectByIndex" parameterType="int" resultMap="BoardResultSet">
 		SELECT b.board_no, b.board_title, b.board_content, b.board_date, 
-		       b.board_status, a.user_id as board_writer, v.view_count
+		       b.board_status, a.user_id as board_writer, v.view_count as board_view
 		FROM board b
-		LEFT JOIN board_views v ON v.board_no = b.board_no
+		LEFT JOIN board_view v ON v.board_no = b.board_no
 		LEFT JOIN auth a ON b.board_writer = a.user_no 
 		WHERE b.board_no = #{bno};
 	</select>
+	
+	<update id="updateViewByIndex" parameterType="int">
+		UPDATE board_view
+		SET view_count = view_count+1
+		WHERE board_no = #{bno};
+	</update>
 	
 	<insert id="insertBoard" parameterType="com.example.demo.board.BoardVo">
 		INSERT INTO board (board_title, board_content, board_writer)

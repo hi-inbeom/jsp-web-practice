@@ -43,5 +43,7 @@ public class BoardDao {
 		sqlSession.delete("boardMapper.deleteBoardByIndex", bno);
 	}
 
-
+	public void increaseViewByIndex(int bno) {
+		sqlSession.update("boardMapper.updateViewByIndex", bno);		
+	}
 }

@@ -2,8 +2,8 @@ package com.example.demo.board;
 
 import java.util.List;
 
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import com.example.demo.auth.AuthDto;
 import com.example.demo.pagination.PageInfo;
@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class BoardService {
 	private final BoardDao boardDao;
+    private final SimpMessagingTemplate messagingTemplate;
 
 	public int selectListCount(String keyword) {
 		return boardDao.selectListCount(keyword);
@@ -31,15 +32,21 @@ public class BoardService {
 	}
 
 	public BoardDto selectByIndex(int bno) {
+		boardDao.increaseViewByIndex(bno);
 		return BoardDto.of(boardDao.selectByIndex(bno));
 	}
 
 	public void write(BoardDto boardDto, HttpSession httpSession) {
 		boardDto.setBoardWriter(getUserInfo(httpSession));
+		// trigger를 통한 조회 테이블 insert
 		boardDao.insert(BoardVo.of(boardDto));
-		
+		messagingTemplate.convertAndSend("/board", "new");
 	}
 
+	public BoardDto updateByIndex(int bno) {
+		return BoardDto.of(boardDao.selectByIndex(bno));
+	}
+	
 	public void update(BoardDto boardDto, HttpSession httpSession) {
 		boardDto.setBoardWriter(getUserInfo(httpSession));
 		boardDao.update(BoardVo.of(boardDto));

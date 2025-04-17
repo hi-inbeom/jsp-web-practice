@@ -161,7 +161,7 @@
 									<td class="list-title">${board.boardTitle}</td>
 									<td class="list-writer">${board.boardWriter}</td>
 									<td class="list-date">${board.boardDate}</td>
-									<td class="list-view">${board.boardViews}</td>
+									<td class="list-view">${board.boardView}</td>
                                 </tr>
                             </c:forEach>
                         </c:when>

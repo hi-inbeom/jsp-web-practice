@@ -45,7 +45,7 @@ public class BoardController {
 	@GetMapping("/board")
 	String board(@RequestParam(value = "pno", required = false, defaultValue = "1") int pno,
 				@RequestParam(value = "keyword", required = false) String keyword,
-				Model model) {
+				Model model, HttpSession httpSession) {
 		addBoardListToModel(pno, keyword, model);
 		return "board/list";
 	}
@@ -54,7 +54,7 @@ public class BoardController {
 	@GetMapping("/board/{bno}")
 	String detail(@PathVariable("bno") int bno, @RequestParam(value = "pno", required = false, defaultValue = "1") int pno,
 				@RequestParam(value = "keyword", required = false) String keyword,
-				Model model) {
+				Model model, HttpSession httpSession) {
 		addBoardListToModel(pno, keyword, model);
 		model.addAttribute("board", boardService.selectByIndex(bno));
 		return "board/detail";
@@ -64,9 +64,9 @@ public class BoardController {
 	@GetMapping("/board/update/{bno}")
 	String update(@PathVariable("bno") int bno, @RequestParam(value = "pno", required = false, defaultValue = "1") int pno,
 			@RequestParam(value = "keyword", required = false) String keyword,
-			Model model) {
+			Model model, HttpSession httpSession) {
 		addBoardListToModel(pno, keyword, model);
-		model.addAttribute("board", boardService.selectByIndex(bno));
+		model.addAttribute("board", boardService.updateByIndex(bno));
 		return "board/update";
 	}
 	
@@ -74,7 +74,7 @@ public class BoardController {
 	@GetMapping("/board/write")
 	String write(@RequestParam(value = "pno", required = false, defaultValue = "1") int pno,
 			@RequestParam(value = "keyword", required = false) String keyword,
-			Model model) {
+			Model model, HttpSession httpSession) {
 		addBoardListToModel(pno, keyword, model);
 		return "board/write";
 	}
@@ -86,6 +86,7 @@ public class BoardController {
 			boardService.write(boardDto, httpSession);
 			return ResponseEntity.ok(Collections.singletonMap("success", true));
 		} catch (Exception e) {
+	        e.printStackTrace();
 			return ResponseEntity.badRequest().body(Collections.singletonMap("message", e.getMessage()));
 		}
 	}
@@ -96,19 +97,19 @@ public class BoardController {
 			boardService.update(boardDto, httpSession);
 			return ResponseEntity.ok(Collections.singletonMap("success", true));
 		} catch (Exception e) {
+	        e.printStackTrace();
 			return ResponseEntity.badRequest().body(Collections.singletonMap("message", e.getMessage()));
 		}
 	}
 	
 	@DeleteMapping("/delete.bo/{bno}")
-	@ResponseBody
-	public String deleteBoard(@PathVariable("bno") int bno, HttpSession httpSession) {
+	ResponseEntity<Map<String, Object>> deleteBoard(@PathVariable("bno") int bno, HttpSession httpSession) {
 	    try {
 	    	boardService.delete(bno, httpSession);
-	        return "success";
+			return ResponseEntity.ok(Collections.singletonMap("success", true));
 	    } catch (Exception e) {
 	        e.printStackTrace();
-	        return "error";
+			return ResponseEntity.badRequest().body(Collections.singletonMap("message", e.getMessage()));
 	    }
 	}
 }

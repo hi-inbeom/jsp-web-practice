@@ -41,7 +41,12 @@ dependencies {
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.0'
 	implementation 'com.mysql:mysql-connector-j'
 	
-    // Lombok (선택사항)
+	// Socket 
+    implementation 'org.springframework.boot:spring-boot-starter-websocket' // WebSocket
+    implementation 'org.springframework:spring-messaging' // Messaging (STOMP 메시지 처리를 위한 의존성)
+    implementation 'org.springframework:spring-websocket' // SockJS (WebSocket을 지원하지 않는 브라우저를 위한 fallback)
+	
+    // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 

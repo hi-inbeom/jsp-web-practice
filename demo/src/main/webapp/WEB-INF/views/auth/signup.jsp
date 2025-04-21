@@ -46,18 +46,13 @@
 	  width: 40px;
 	  height: 40px;
 	  border-radius: 50%;
-      background: #007bff;
 	  display: flex;
 	  justify-content: center;
 	  align-items: center;
 	  cursor: pointer;
-	  transition: background-color 0.2s ease;
-	  color: white;
+	  color: black;
 	  font-weight: bold;
-	  font-size: 18px;
-	}
-	.back-button:hover {
-        background: #0056b3;
+	  font-size: 28px;
 	}
 	h2 {
 	  margin: 0;
@@ -102,18 +97,19 @@
 
             // 폼 데이터 추출
             const userId = document.getElementById('userId').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            const userEmail = document.getElementById('userEmail').value;
+            const userNick = document.getElementById('userNick').value;
+            const userPassword = document.getElementById('userPassword').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
 
             // 비밀번호 일치 여부 확인
-            if (password !== confirmPassword) {
+            if (userPassword !== confirmPassword) {
                 alert('비밀번호가 일치하지 않습니다.');
                 return;
             }
 
             // JSON 데이터로 변환
-            const jsonData = JSON.stringify({ userId, email, password });
+            const jsonData = JSON.stringify({ userId, userEmail, userNick, userPassword });
 
             fetch('/signup.au', {
                 method: 'POST',
@@ -139,7 +135,9 @@
 <body>
     <div class="container">
     <div class="title-wrapper">
-    	<div class="back-button" onclick="history.back()">←</div>
+    	<div class="back-button" onclick="history.back()">
+    		<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+    	</div>
         <h2>회원가입</h2>
     </div>
         <form onsubmit="submitForm(event)">
@@ -149,11 +147,15 @@
             </div>
             <div class="form-group">
                 <label for="email">이메일</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="userEmail" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="nick">닉네임</label>
+                <input type="text" id="userNick" name="nick" required>
             </div>
             <div class="form-group">
                 <label for="password">비밀번호</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="userPassword" name="password" required>
             </div>
             <div class="form-group">
                 <label for="confirmPassword">비밀번호 확인</label>

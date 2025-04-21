@@ -11,8 +11,8 @@
     	function logout(event) {
             event.preventDefault();
             
-            fetch('/logout', {
-                method: 'POST',
+            fetch('/logout.au', {
+                method: 'POST'
             })
             .then(response => response.json())
             .then(data => {
@@ -24,6 +24,7 @@
             })
             .catch(error => {
                 alert('로그아웃 중 오류가 발생했습니다.');
+                console.log(error);
             });
     	}
     

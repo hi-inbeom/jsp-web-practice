@@ -27,8 +27,8 @@
 
 	<!-- 회원가입 -->
 	<insert id="insertAuth" parameterType="com.example.demo.auth.AuthVo">
-	    INSERT INTO auth (user_id, user_email, user_nick, user_password, created_at, user_status, user_role)
-	    VALUES (#{userId}, #{userEmail}, #{userNick}, #{userPassword}, NOW(), #{userStatus}, #{userRole});
+	    INSERT INTO auth (user_id, user_email, user_nick, user_password, created_at)
+	    VALUES (#{userId}, #{userEmail}, #{userNick}, #{userPassword}, NOW());
 	</insert>
     
 	<!-- 회원정보 수정 -->

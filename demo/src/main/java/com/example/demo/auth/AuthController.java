@@ -40,6 +40,11 @@ public class AuthController {
         return "auth/findAccount";
     }
     
+    @GetMapping("/updateAccount")
+    public String updateAccountPage() {
+    	return "auth/updateAccount";
+    }
+    
     @GetMapping("/mypage")
     public String myPage() {
     	return "auth/myPage";
@@ -83,14 +88,12 @@ public class AuthController {
     
     @PostMapping("/findAccount.au")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> findAccount(@RequestBody AuthDto authDto) {
+    public ResponseEntity<Map<String, Object>> findAccount(@RequestBody AuthDto authDto, HttpSession httpSession) {
     	try {
         	authDto = authService.findAccount(authDto);
-
             Map<String, Object> response = new HashMap<>();
+            httpSession.setAttribute("userInfo", authDto);
             response.put("success", true);
-            response.put("userId", authDto.getUserId()); 
-            
             return ResponseEntity.ok(response);
     	} catch (Exception e) {
             return ResponseEntity.badRequest().body(Collections.singletonMap("message", e.getMessage()));
@@ -113,15 +116,13 @@ public class AuthController {
             return ResponseEntity.badRequest().body(Collections.singletonMap("message", e.getMessage()));
     	}
     }
-
-
     
     @PostMapping("/signup.au")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> signUp(@RequestBody AuthDto authDto, HttpSession httpSession) throws Exception {        
         try {
             authService.registerAuth(authDto);
-        	httpSession.setAttribute("loginUser", authDto.getUserId());
+        	httpSession.setAttribute("loginUser", authDto);
             return ResponseEntity.ok(Collections.singletonMap("success", true));
         } catch (AuthException e) {
             return ResponseEntity.badRequest().body(Collections.singletonMap("message", e.getMessage()));

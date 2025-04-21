@@ -75,7 +75,8 @@
         font-weight: bold;
     }
     input[type="email"],
-    input[type="password"] {
+    input[type="password"],
+    input[type="text"] {
         width: 100%;
         padding: 10px;
         border: 1px solid #ccc;
@@ -98,17 +99,22 @@
 	</style>
     
     <script>
-        function findAccount(event) {
+    	function updateAccount(event) {
             event.preventDefault();
+
+            const userId = document.getElementById('userId').value;
+            const userPassword = document.getElementById('userPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
             
-            const formData = {
-            	userEmail: document.getElementById('userEmail').value
-            };
+            if (userPassword !== confirmPassword) {
+                alert('비밀번호가 일치하지 않습니다.');
+                return;
+            }
+
+            const jsonData = JSON.stringify({ userId, userPassword });
             
-            const jsonData = JSON.stringify(formData);
-            
-            fetch('/findAccount.au', {
-                method: 'POST',
+            fetch('/updateAccount.au', {
+                method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -117,7 +123,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                	window.location.href = "/updateAccount";
+                	window.location.href = '/';
                 } else {
                     alert(data.message);
                 }
@@ -125,30 +131,23 @@
             .catch(error => {
                 alert('아이디 찾는 과정에서 오류.');
             });
-            
-        }
+    	}
     </script>
 </head>
 <body>
     <div class="container">
     <div class="title-wrapper">
     	<div class="back-button" onclick="history.back()">←</div>
-        <h2>계정 찾기</h2>
+        <h2>계정 정보</h2>
     </div>
-        <form onsubmit="findAccount(event)">
+        <div id="account-info">
             <div class="form-group">
-                <label for="userEmail">이메일 주소</label>
-                <input type="email" id="userEmail" name="userEmail" required>
+                <label for="userId">아이디</label>
+                <input type="text" value="${ userInfo.userId }" id="userId" name="userId" readonly>
             </div>
-            <button type="submit">계정 찾기</button>
-        </form>
-        
-        <div id="account-info" style="display: none;">
-            <h3>계정 정보</h3>
-            <div id="userId"></div>
             <div class="form-group">
                 <label for="userPassword">새 비밀번호</label>
-                <input type="password" id="password" name="userPassword" required>
+                <input type="password" id="userPassword" name="userPassword" required>
             </div>
             <div class="form-group">
                 <label for="confirmPassword">비밀번호 확인</label>

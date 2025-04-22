@@ -5,7 +5,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메인 페이지</title>
+    
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .main-container {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+        
+	    .main-image {
+	        width: 100%;
+	        object-fit: cover;
+		    border-bottom-left-radius: 10px;
+		    border-bottom-right-radius: 10px;
+	    }
+    </style>
     
     <script>
     	function logout(event) {
@@ -31,37 +55,9 @@
     </script>
 </head>
 <body>
-    <header>
-        <h1>전자정부프레임워크 웹 서비스</h1>
-    </header>
-    
-    <nav>
-        <ul>
-            <li><a href="/board?pno=1">게시판</a></li>
-            <c:if test="${not empty loginUser }">
-            	<li><a href="/mypage">마이페이지</a></li>
-            </c:if>
-        </ul>
-    </nav>
-
-    <main>
-        <c:choose>
-            <c:when test="${not empty loginUser}">
-                <h2>환영합니다, ${loginUser.userNick}님!</h2>
-                <p>전자정부프레임워크 기반 웹 서비스에 오신 것을 환영합니다.</p>
-                <form onsubmit="logout(event)">
-                    <button type="submit">로그아웃</button>
-                </form>
-            </c:when>
-            <c:otherwise>
-                <h2>로그인이 필요합니다.</h2>
-                <p><a href="/login">로그인 페이지로 이동</a></p>
-            </c:otherwise>
-        </c:choose>
-    </main>
-
-    <footer>
-        <p>&copy; 2025 전자정부프레임워크 프로젝트</p>
-    </footer>
+	<div class="main-container">
+		<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
+    	<img class="main-image" alt="수하물" src="image/kiki-main.png">
+    </div>
 </body>
 </html>

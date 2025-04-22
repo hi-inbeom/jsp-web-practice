@@ -5,15 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인</title>
-    
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-        }
+	<style>
         body {
             display: flex;
             justify-content: center;
@@ -21,67 +13,113 @@
             height: 100vh;
             background-color: #f4f4f4;
         }
-        .login-container {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-        h2 {
-            margin-bottom: 1.5rem;
-            color: #333;
-        }
-        .form-group {
-            margin-bottom: 1rem;
-            text-align: left;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.9rem;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 1rem;
-        }
-        button:hover {
-            background: #0056b3;
-        }
-        .links {
-            margin-top: 1rem;
-            font-size: 0.9rem;
-        }
-        .links a {
-            text-decoration: none;
-            color: #007bff;
-        }
-        .links a:hover {
-            text-decoration: underline;
-        }
-    </style>
+
+		.login-container {
+			width: 100%;
+			max-width: 800px;
+			height: 600px;
+			background: repeating-linear-gradient(
+				45deg,
+				red,
+				red 10px,
+				white 10px,
+				white 20px,
+				blue 20px,
+				blue 30px,
+				white 30px,
+				white 40px
+			);
+			display: flex;
+			flex-direction: column;
+		}
+		
+		.form-top,
+		.form-bottom {
+			height: 10px;
+			width: 100%;
+		}
+		.form-middle {
+			flex: 1;
+			display: flex;
+		}
+		.form-middle-left,
+		.form-middle-right {
+			width: 10px;
+		}
+		
+		.main-container {
+			width: 100%;
+			background-color: white;
+		    display: flex;
+		    flex-wrap: wrap;
+		    justify-content: space-between;
+			padding: 15px;
+		}
+		.top-left,
+		.top-right,
+		.bottom-left,
+		.bottom-right {
+			width: 50%;
+		}
+		
+		/* 2사분면 */
+		.top-left form {
+			width: 80%;
+		}
+		.login-input {
+			width: 100%;
+			font-size: 18px;
+			border: none;
+			border-bottom: 1px solid black;
+			margin-bottom: 5px;
+			outline: none;
+		}
+		
+		.submit-btn {
+			width: 46%;
+			border-bottom: 1px solid black;
+			margin-bottom: 5px;
+			font-size: 18px;
+		}
+		
+		.submit-btn button {
+			background: none;
+			border: none;
+			cursor: pointer;
+		}
+		
+		.main-container a {
+			color: black;
+			text-decoration: none;
+		}
+		
+		.top-left span {
+			font-size: 28px;
+		}
+		
+		
+		.top-right {
+			display:flex;
+		    width: 80px;
+		    height: 100px;
+		    justify-content: right;
+		}
+		
+		.bottom-right {
+			display:flex;
+			align-items: center; 
+		}
+		.bottom-right div {
+			width: 100%;
+			padding-left: 25px;
+		}
+		.main-image {
+		    height: 100%;
+		    object-fit: contain;
+		}
+		
+
+	</style>
     
     <script>
     	function login(event) {
@@ -117,27 +155,69 @@
     
     </script>
 </head>
-<body>
+<!-- <body>
+  <div class="envelope">
+    <div class="flap"></div>
     <div class="login-container">
-        <h2>로그인</h2>
-        <form onsubmit="login(event)">
-            <div class="form-group">
-                <label for="userId">아이디</label>
-                <input type="text" id="userId" name="userId" required>
-            </div>
-            <div class="form-group">
-                <label for="userPassword">비밀번호</label>
-                <input type="password" id="userPassword" name="userPassword" required>
-            </div>
-            <div class="form-group checkbox-group">
-                <input type="checkbox" id="autoLogin" name="autoLogin">
-                <label for="autoLogin">자동 로그인</label>
-            </div>
-            <button type="submit">로그인</button>
-            <div class="links">
-                <a href="/findAccount">계정 찾기</a> | <a href="/signup">회원가입</a>
-            </div>
-        </form>
+      <h2>로그인</h2>
+      <form onsubmit="login(event)">
+        <div class="form-group">
+          <label for="userId">아이디</label>
+          <input type="text" id="userId" name="userId" required>
+        </div>
+        <div class="form-group">
+          <label for="userPassword">비밀번호</label>
+          <input type="password" id="userPassword" name="userPassword" required>
+        </div>
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="autoLogin" name="autoLogin">
+          <label for="autoLogin">자동 로그인</label>
+        </div>
+        <button type="submit">로그인</button>
+        <div class="links">
+          <a href="/findAccount">계정 찾기</a> | <a href="/signup">회원가입</a>
+        </div>
+      </form>
     </div>
+  </div>
 </body>
-</html>
+ -->
+ 	<body>
+ 		<div class="login-container">
+			<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
+ 			<div class="form-top"></div>
+		    <div class="form-middle">
+		      <div class="form-middle-left"></div>
+      		  <div class="main-container">
+      		    <div class="top-left">
+	      		  	<form onsubmit="login(event)" class="top-left">
+	      		  		<span style="font-size: 28px;">From</span> <br>
+				        <input type="text" class="login-input" id="userId" name="userId" placeholder="아이디" autocomplete="none" required> <br>
+				        <input type="password" class="login-input" id="userPassword" name="userPassword" placeholder="비밀번호" required>
+				        <div class="submit-btn">
+				        	<button type="submit">로그인</button> <br>
+				        </div>
+	          			<a href="/findAccount">계정 찾기</a> | <a href="/signup">회원가입</a>
+	      		  	</form>
+      		  	</div>
+      		  	<div class="top-right">
+      		  		<img alt="수하물" src="image/kiki-seal.png">
+      		  	</div>
+      		  	<div class="bottom-left"></div>
+      		  	<div class="bottom-right">
+      		  		<div class="span-form">
+	      		  		<span style="font-size: 28px;">To</span> <br>
+	      		  		<span>15 Church St, Ross TAS 7209</span> <br>
+	      		  		<span style="font-size: 18px; font-weight: 800;">Kiki</span> <br>
+	      		  		<span>7209</span> <br>
+	      		  		<span>Australia</span>
+      		  		</div>
+      		  	</div>
+      		  </div>
+		      <div class="form-middle-right"></div>
+		    </div>
+ 			<div class="form-bottom"></div>
+ 		</div>
+ 	</body>
+ 
+ </html>

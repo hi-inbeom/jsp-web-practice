@@ -201,7 +201,7 @@
 	      		  	</form>
       		  	</div>
       		  	<div class="top-right">
-      		  		<img alt="수하물" src="image/kiki-seal.png">
+      		  		<img alt="우편" src="image/kiki-seal.png">
       		  	</div>
       		  	<div class="bottom-left"></div>
       		  	<div class="bottom-right">

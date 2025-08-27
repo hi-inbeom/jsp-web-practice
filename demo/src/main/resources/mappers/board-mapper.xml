@@ -5,28 +5,27 @@
 	    <result property="boardNo" column="board_no"/>
 	    <result property="boardTitle" column="board_title"/>
 	    <result property="boardContent" column="board_content"/>
-	    <result property="boardDate" column="board_date"/>
-	    <result property="boardStatus" column="board_status"/>
-	    <result property="boardView" column="board_view"/>
 	    <result property="boardWriter" column="board_writer"/>
+	    <result property="boardStatus" column="board_status"/>
+	    <result property="regDate" column="reg_date"/>
+	    <result property="modDate" column="mod_date"/>
 	</resultMap>
 
+	<!-- 게시판 총 개수 -->
 	<select id="selectListCount" parameterType="String" resultType="int">
-		SELECT COUNT(b.board_status)
+		SELECT COUNT(*)
 		FROM board b
-    	<where>
-    		b.board_status = 'Y'
-   	   		<if test="keyword != null and keyword != ''">
-   		         AND b.board_title LIKE CONCAT('%', #{keyword}, '%')
-	        </if>
-	    </where>
+    	WHERE b.board_status = 'Y'
+   		<if test="keyword != null and keyword != ''">
+	         AND b.board_title LIKE CONCAT('%', #{keyword}, '%')
+        </if>
 	</select>
 	
+	<!-- 게시판 리스트 가져오기 -->
     <select id="selectAll" parameterType="map" resultMap="BoardResultSet">
-        SELECT b.board_no, b.board_title, b.board_content, b.board_date, a.user_id as board_writer, v.view_count as board_view
+        SELECT b.board_no, b.board_title, b.board_content, b.board_date, a.user_id as board_writer,
         FROM board b 
-		LEFT JOIN board_view v ON v.board_no = b.board_no
-		LEFT JOIN auth a ON b.board_writer = a.user_no 
+			LEFT JOIN auth a ON b.board_writer = a.user_no 
         WHERE b.board_status = 'Y'
 	   	<if test="keyword != null and keyword != ''">
  			AND b.board_title LIKE CONCAT('%', #{keyword}, '%')
@@ -35,32 +34,29 @@
         LIMIT #{boardLimit} OFFSET #{startRow}
     </select>
 	
+	<!-- 게시판 상세 가져오기 -->
 	<select id="selectByIndex" parameterType="int" resultMap="BoardResultSet">
 		SELECT b.board_no, b.board_title, b.board_content, b.board_date, 
-		       b.board_status, a.user_id as board_writer, v.view_count as board_view
+		       b.board_status, a.user_id as board_writer
 		FROM board b
-		LEFT JOIN board_view v ON v.board_no = b.board_no
 		LEFT JOIN auth a ON b.board_writer = a.user_no 
 		WHERE b.board_no = #{bno};
 	</select>
 	
-	<update id="updateViewByIndex" parameterType="int">
-		UPDATE board_view
-		SET view_count = view_count+1
-		WHERE board_no = #{bno};
-	</update>
-	
+	<!-- 게시판 작성 -->
 	<insert id="insertBoard" parameterType="com.example.demo.board.BoardVo">
 		INSERT INTO board (board_title, board_content, board_writer)
 		VALUE (#{boardTitle}, #{boardContent}, #{boardWriter});
 	</insert>
 	
+	<!-- 게시판 업데이트 -->
 	<update id="updateBoardByIndex" parameterType="com.example.demo.board.BoardVo">
 		UPDATE board
 		SET board_title=#{boardTitle}, board_content=#{boardContent}
 		WHERE board_no=#{boardNo}
 	</update>
 	
+	<!-- 게시판 삭제 -->
 	<delete id="deleteBoardByIndex" parameterType="int">
 		DELETE FROM board
 		WHERE board_no=#{bno}

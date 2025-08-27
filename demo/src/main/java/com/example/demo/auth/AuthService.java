@@ -19,12 +19,12 @@ public class AuthService {
     }
     
     public AuthDto login(AuthDto authDto)  {
-    	AuthVo userInfo = authDao.findByUserId(AuthVo.of(authDto));
+    	AuthVo userInfo = authDao.findByUserId(new AuthVo(authDto));
     	
     	if (userInfo==null) {
     		throw new AuthException("존재하지 않는 아이디");
     	}
-		AuthDto loginUser = AuthDto.of(userInfo);
+		AuthDto loginUser = new AuthDto(userInfo);
         if (!passwordEncoder.matches(authDto.getUserPassword(), loginUser.getUserPassword())) {
             throw new AuthException("비밀번호 불 일치");
         }
@@ -34,7 +34,7 @@ public class AuthService {
     
     @Transactional
     public void registerAuth(AuthDto authDto) {
-		AuthVo authVo = AuthVo.of(authDto);
+		AuthVo authVo = new AuthVo(authDto);
     	
     	// 아이디 중복 검사
     	if (authDao.findByUserId(authVo)!=null) {
@@ -65,8 +65,7 @@ public class AuthService {
     }
 
 	public AuthDto findAccount(AuthDto authDto) {
-		AuthVo authVo = AuthVo.of(authDto);
-		authDto = AuthDto.of(authDao.findByEmail(authVo));
+		authDto = new AuthDto(authDao.findByEmail(new AuthVo(authDto)));
 		
     	if (authDto==null) {
     		throw new AuthException("가입된 계정 정보가 없음");
@@ -77,7 +76,7 @@ public class AuthService {
 
     @Transactional
 	public void updateAccount(AuthDto authDto) {
-		AuthVo authVo = AuthVo.of(authDto);
+		AuthVo authVo = new AuthVo(authDto);
 		
     	// 비밀번호 길이
     	if (authDto.getUserPassword().length()<4) {
@@ -93,7 +92,7 @@ public class AuthService {
 
     @Transactional
 	public void deleteAccount(AuthDto authDto) {
-		AuthVo authVo = AuthVo.of(authDto);
+		AuthVo authVo = new AuthVo(authDto);
 		
 
 		if (authDao.findByUserId(authVo)==null) {

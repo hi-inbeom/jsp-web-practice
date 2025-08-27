@@ -38,6 +38,7 @@
 
     <!-- Navigation -->
     <div style="display: flex; gap: 20px;">
+        <a href="/history" style="text-decoration: none; color: black;">History</a>
         <a href="/board?pno=1" style="text-decoration: none; color: black;">Request</a>
         <c:choose>
             <c:when test="${not empty loginUser}">

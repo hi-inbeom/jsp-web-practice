@@ -1,44 +1,33 @@
 package com.example.demo.board;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.example.demo.base.BaseVo;
 
-@NoArgsConstructor
-@AllArgsConstructor
+import lombok.Getter;
+import lombok.Setter;
+
 @Getter
 @Setter
-@ToString
-public class BoardVo {
-	private int boardNo;
+public class BoardVo extends BaseVo {
+	private Long boardNo;
 	private String boardTitle;
 	private String boardContent;
-	private String boardDate;
-	private boolean boardStatus;
-	private int boardView;
+	private String boardStatus;
 	private String boardWriter;
 	
-    // BoardDto -> BoardVo 변환
-    public static BoardVo of(BoardDto boardDto) {
-        BoardVo boardVo = new BoardVo();
-        
-        if (boardDto.getBoardNo() != null)
-            boardVo.setBoardNo(Integer.parseInt(boardDto.getBoardNo()));
-        
-        boardVo.setBoardTitle(boardDto.getBoardTitle());
-        boardVo.setBoardContent(boardDto.getBoardContent());
-        boardVo.setBoardDate(boardDto.getBoardDate());
+	public BoardVo() {}
 
-        if (boardDto.getBoardStatus() != null)
-            boardVo.setBoardStatus(Boolean.parseBoolean(boardDto.getBoardStatus()));
+    // DTO → VO 변환
+    public BoardVo(BoardDto boardDto) {
+        super(boardDto);
 
-        if (boardDto.getBoardView() != null)
-            boardVo.setBoardView(Integer.parseInt(boardDto.getBoardView()));
+        if (boardDto == null) return;
 
-        boardVo.setBoardWriter(boardDto.getBoardWriter());
-
-        return boardVo;
+        if (boardDto.getBoardNo() != null && !boardDto.getBoardNo().isEmpty()) {
+            this.boardNo = Long.parseLong(boardDto.getBoardNo());
+        }
+        this.boardTitle = boardDto.getBoardTitle();
+        this.boardContent = boardDto.getBoardContent();
+        this.boardStatus = boardDto.getBoardStatus();
+        this.boardWriter = boardDto.getBoardWriter();
     }
 }

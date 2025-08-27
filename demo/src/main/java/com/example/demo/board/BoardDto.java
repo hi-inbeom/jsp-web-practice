@@ -1,37 +1,33 @@
 package com.example.demo.board;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.example.demo.base.BaseDto;
 
-@NoArgsConstructor
-@AllArgsConstructor
+import lombok.Getter;
+import lombok.Setter;
+
 @Getter
 @Setter
-@ToString
-public class BoardDto {
+public class BoardDto extends BaseDto {
 	private String boardNo;
 	private String boardTitle;
 	private String boardContent;
-	private String boardDate;
 	private String boardStatus;
-	private String boardView;
 	private String boardWriter;
 	
-    // BoardVo -> BoardDto 변환
-    public static BoardDto of(BoardVo boardVo) {
-        BoardDto boardDto = new BoardDto();
-        
-        boardDto.setBoardNo(String.valueOf(boardVo.getBoardNo())); // int -> String
-        boardDto.setBoardTitle(boardVo.getBoardTitle());
-        boardDto.setBoardContent(boardVo.getBoardContent());
-        boardDto.setBoardDate(boardVo.getBoardDate());
-        boardDto.setBoardStatus(String.valueOf(boardVo.isBoardStatus()));
-        boardDto.setBoardView(String.valueOf(boardVo.getBoardView())); // int -> String
-        boardDto.setBoardWriter(String.valueOf(boardVo.getBoardWriter())); // int -> String
-        
-        return boardDto;
+	public BoardDto() {}
+	
+    // VO → DTO 변환
+    public BoardDto(BoardVo boardVo) {
+        super(boardVo);
+
+        if (boardVo == null) return;
+
+        if (boardVo.getBoardNo() != null) {
+        	this.boardNo = boardVo.getBoardNo().toString();
+        }
+        this.boardTitle = boardVo.getBoardTitle();
+        this.boardContent = boardVo.getBoardContent();
+        this.boardStatus = boardVo.getBoardStatus();
+        this.boardWriter = boardVo.getBoardWriter();
     }
 }

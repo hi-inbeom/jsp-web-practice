@@ -35,11 +35,17 @@ dependencies {
     implementation 'jakarta.servlet:jakarta.servlet-api' // Servlet API
     implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api' // JSTL API
     implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl' // JSTL 구현체
+    
+    // 빠른 기능 구현을 위한 H2 Database
+    runtimeOnly 'com.h2database:h2'
 
 	// MyBatis와 MySQL 연결
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.0'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
 	implementation 'com.mysql:mysql-connector-j'
+    
+    // livereload를 위한 개발환경
+    implementation  'org.springframework.boot:spring-boot-devtools'
 	
 	// Socket 
     implementation 'org.springframework.boot:spring-boot-starter-websocket' // WebSocket

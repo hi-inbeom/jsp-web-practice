@@ -99,10 +99,26 @@
 		
 		
 		.top-right {
-			display:flex;
-		    width: 80px;
+		    width: 100px;
 		    height: 100px;
-		    justify-content: right;
+		}
+		
+		.top-right a {
+		    display: flex;
+		    flex-direction: column;
+		    width: 100px;
+		    height: 100px;
+		    justify-content: flex-start;
+			font-size: 12px;
+			color : blue;
+    		text-decoration: none;
+		}
+		
+		.top-right a,
+		.top-right a div {
+			text-align: center;
+			justify-content: flex-start;
+		    text-decoration: none;
 		}
 		
 		.bottom-right {
@@ -155,36 +171,8 @@
     
     </script>
 </head>
-<!-- <body>
-  <div class="envelope">
-    <div class="flap"></div>
-    <div class="login-container">
-      <h2>로그인</h2>
-      <form onsubmit="login(event)">
-        <div class="form-group">
-          <label for="userId">아이디</label>
-          <input type="text" id="userId" name="userId" required>
-        </div>
-        <div class="form-group">
-          <label for="userPassword">비밀번호</label>
-          <input type="password" id="userPassword" name="userPassword" required>
-        </div>
-        <div class="form-group checkbox-group">
-          <input type="checkbox" id="autoLogin" name="autoLogin">
-          <label for="autoLogin">자동 로그인</label>
-        </div>
-        <button type="submit">로그인</button>
-        <div class="links">
-          <a href="/findAccount">계정 찾기</a> | <a href="/signup">회원가입</a>
-        </div>
-      </form>
-    </div>
-  </div>
-</body>
- -->
  	<body>
  		<div class="login-container">
-			<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
  			<div class="form-top"></div>
 		    <div class="form-middle">
 		      <div class="form-middle-left"></div>
@@ -201,7 +189,10 @@
 	      		  	</form>
       		  	</div>
       		  	<div class="top-right">
-      		  		<img alt="우편" src="image/kiki-seal.png">
+      		  		<a href="/">
+	      		  		<img alt="우편" src="image/kiki-seal.png">
+	      		  		<div style="font-size: 12px;">Kiki`s Delivery</div>
+      		  		</a>
       		  	</div>
       		  	<div class="bottom-left"></div>
       		  	<div class="bottom-right">

@@ -59,14 +59,22 @@ public class AuthController {
     	try {
     		AuthDto loginUser = authService.login(authDto);
     		
+<<<<<<< HEAD
 //    		if (authDto.isAutoLogin()) {
+=======
+    		if (authDto.isAutoLogin()) {
+>>>>>>> ac64c8fbbf72adbabc0f8c318d290160ec89c406
                 Cookie loginCookie = new Cookie("userId", authDto.getUserId());
                 loginCookie.setMaxAge(60 * 60 * 24 * 7); // 쿠키 유효기간 7일
                 loginCookie.setPath("/"); // 모든 경로에서 쿠키 사용 가능
                 loginCookie.setHttpOnly(true); // JavaScript에서 접근할 수 없도록 설정
                 loginCookie.setSecure(true); // HTTPS에서만 전송하도록 설정
                 response.addCookie(loginCookie); // 쿠키 추가
+<<<<<<< HEAD
 //    		}
+=======
+    		}
+>>>>>>> ac64c8fbbf72adbabc0f8c318d290160ec89c406
     		
         	httpSession.setAttribute("loginUser", loginUser);
             return ResponseEntity.ok(Collections.singletonMap("success", true));

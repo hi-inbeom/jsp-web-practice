@@ -33,39 +33,23 @@ public class BoardService {
 
 	public BoardDto selectByIndex(int bno) {
 		boardDao.increaseViewByIndex(bno);
-<<<<<<< HEAD
 		return new BoardDto(boardDao.selectByIndex(bno));
-=======
-		return BoardDto.of(boardDao.selectByIndex(bno));
->>>>>>> ac64c8fbbf72adbabc0f8c318d290160ec89c406
 	}
 
 	public void write(BoardDto boardDto, HttpSession httpSession) {
 		boardDto.setBoardWriter(getUserInfo(httpSession));
 		// trigger를 통한 조회 테이블 insert
-<<<<<<< HEAD
 		boardDao.insert(new BoardVo(boardDto));
-=======
-		boardDao.insert(BoardVo.of(boardDto));
->>>>>>> ac64c8fbbf72adbabc0f8c318d290160ec89c406
 		messagingTemplate.convertAndSend("/board", "new");
 	}
 
 	public BoardDto updateByIndex(int bno) {
-<<<<<<< HEAD
 		return new BoardDto(boardDao.selectByIndex(bno));
-=======
-		return BoardDto.of(boardDao.selectByIndex(bno));
->>>>>>> ac64c8fbbf72adbabc0f8c318d290160ec89c406
 	}
 	
 	public void update(BoardDto boardDto, HttpSession httpSession) {
 		boardDto.setBoardWriter(getUserInfo(httpSession));
-<<<<<<< HEAD
 		boardDao.update(new BoardVo(boardDto));
-=======
-		boardDao.update(BoardVo.of(boardDto));
->>>>>>> ac64c8fbbf72adbabc0f8c318d290160ec89c406
 	}
 
 	public void delete(int bno, HttpSession httpSession) {

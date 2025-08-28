@@ -14,7 +14,9 @@ public abstract class BaseVo {
     private Timestamp regDate;
     private Timestamp modDate;
     
-    public BaseVo() { }
+    public BaseVo() {
+        this.regDate = new Timestamp(System.currentTimeMillis());
+    }
 
     // DTO를 생성자에서 받도록 변경
     public BaseVo(BaseDto baseDto) {

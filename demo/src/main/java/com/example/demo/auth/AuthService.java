@@ -18,8 +18,8 @@ public class AuthService {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
     
-    public AuthDto login(AuthDto authDto)  {
-    	AuthVo userInfo = authDao.findByUserId(new AuthVo(authDto));
+    public AuthDto login(LoginDto loginDto)  {
+    	AuthVo userInfo = authDao.findByUserId(new AuthVo(loginDto));
     	
     	if (userInfo==null) {
     		throw new AuthException("존재하지 않는 아이디");
@@ -33,9 +33,21 @@ public class AuthService {
     }
     
     @Transactional
-    public void registerAuth(AuthDto authDto) {
-		AuthVo authVo = new AuthVo(authDto);
+    public AuthDto registerAuth(AuthFormDto authFormDto) {
+    	AuthVo authVo = new AuthVo(authFormDto);
     	
+    	// 아이디 길이
+    	if (authFormDto.getUserId().length()<4) {
+    		throw new AuthException("아이디 짧음 4자 이상");
+    	}
+    	// 비밀번호 길이
+    	if (authFormDto.getUserPassword().length()<4) {
+    		throw new AuthException("비밀번호 짧음 4자 이상");
+    	}
+    	// 닉네임 길이
+    	if (authFormDto.getUserNick().length()<1) {
+    		throw new AuthException("닉네임이 설정되지 않음");
+    	}
     	// 아이디 중복 검사
     	if (authDao.findByUserId(authVo)!=null) {
     		throw new AuthException("아이디 중복");
@@ -44,24 +56,16 @@ public class AuthService {
     	if (authDao.findByEmail(authVo)!=null) {
     		throw new AuthException("이메일 중복");
     	}
-    	// 아이디 길이
-    	if (authDto.getUserId().length()<4) {
-    		throw new AuthException("아이디 짧음 4자 이상");
-    	}
-    	// 비밀번호 길이
-    	if (authDto.getUserPassword().length()<4) {
-    		throw new AuthException("비밀번호 짧음 4자 이상");
-    	}
-    	// 닉네임 길이
-    	if (authDto.getUserNick().length()<1) {
-    		throw new AuthException("닉네임이 설정되지 않음");
-    	}
     	
         // 비밀번호 암호화
-    	authVo.setUserPassword(passwordEncoder.encode(authVo.getUserPassword()));
+    	authFormDto.setUserPassword(passwordEncoder.encode(authFormDto.getUserPassword()));
 
         // DAO를 통해 회원 정보 저장
-        authDao.insertAuth(authVo);
+        int result = authDao.insertAuth(authVo);
+        if (result == 1) {
+        	return new AuthDto(authDao.findByUserId(authVo));
+        }
+		return null;
     }
 
 	public AuthDto findAccount(AuthDto authDto) {

@@ -23,7 +23,7 @@
 	
 	<!-- 게시판 리스트 가져오기 -->
     <select id="selectAll" parameterType="map" resultMap="BoardResultSet">
-        SELECT b.board_no, b.board_title, b.board_content, b.board_date, a.user_id as board_writer,
+        SELECT b.*, a.user_id as board_writer
         FROM board b 
 			LEFT JOIN auth a ON b.board_writer = a.user_no 
         WHERE b.board_status = 'Y'
@@ -36,8 +36,7 @@
 	
 	<!-- 게시판 상세 가져오기 -->
 	<select id="selectByIndex" parameterType="int" resultMap="BoardResultSet">
-		SELECT b.board_no, b.board_title, b.board_content, b.board_date, 
-		       b.board_status, a.user_id as board_writer
+		SELECT b.*, a.user_id as board_writer
 		FROM board b
 		LEFT JOIN auth a ON b.board_writer = a.user_no 
 		WHERE b.board_no = #{bno};

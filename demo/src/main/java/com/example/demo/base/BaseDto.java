@@ -12,8 +12,12 @@ public class BaseDto {
     public BaseDto() {}
 
     public BaseDto(BaseVo baseVo) {
-        this.regDate = baseVo.getRegDate().toString();
-        this.modDate = baseVo.getModDate().toString();
+        this.regDate = (baseVo.getRegDate() != null)
+		        		? baseVo.getRegDate().toString()
+        				: "null";
+        this.modDate = (baseVo.getModDate() != null)
+		        		? baseVo.getModDate().toString()
+						: "null";
     }
 
 	@Override

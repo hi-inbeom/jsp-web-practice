@@ -12,7 +12,6 @@ public class AuthDto extends BaseDto {
     private String userId;
     private String userEmail;
     private String userNick;
-    private String userPassword;
 
     public AuthDto() {}
 
@@ -22,12 +21,11 @@ public class AuthDto extends BaseDto {
         this.userId = authVo.getUserId();
         this.userEmail = authVo.getUserEmail();
         this.userNick = authVo.getUserNick();
-        this.userPassword = authVo.getUserPassword();;
     }
 
 	@Override
 	public String toString() {
 		return super.toString() + " + AuthDto [userNo=" + userNo + ", userId=" + userId + ", userEmail=" + userEmail + ", userNick="
-				+ userNick + ", userPassword=" + userPassword + "]";
+				+ userNick + "]";
 	}
 }

@@ -22,7 +22,21 @@ public class AuthVo extends BaseVo {
     	this.userId = authDto.getUserId();
     	this.userEmail = authDto.getUserEmail();
     	this.userNick = authDto.getUserNick();
-    	this.userPassword = authDto.getUserPassword();
+    }
+    
+    // 회원가입
+    public AuthVo(AuthFormDto authFormDto) {
+    	super();
+    	this.userId = authFormDto.getUserId();
+    	this.userEmail = authFormDto.getUserEmail();
+    	this.userNick = authFormDto.getUserEmail();
+    	this.userPassword = authFormDto.getUserPassword();
+    }
+    
+    // 회원로그인
+    public AuthVo(LoginDto loginDto) {
+    	this.userId = loginDto.getUserId();
+    	this.userPassword = loginDto.getUserPassword();
     }
 
 	@Override

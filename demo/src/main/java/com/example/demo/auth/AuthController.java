@@ -24,6 +24,8 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
 
     private final AuthService authService;
+    
+    /* ========================== 화면 ==========================*/
 
     @GetMapping("/login")
     public String loginPage() {
@@ -51,13 +53,27 @@ public class AuthController {
     }
     
     
-    /* ================================================ */
+    /* ========================== API ========================== */
     
+    // 회원 가입
+    @PostMapping("/signup.au")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> signUp(@RequestBody AuthFormDto authFormDto, HttpSession httpSession) throws Exception {        
+        try {
+            AuthDto authDto = authService.registerAuth(authFormDto);
+        	httpSession.setAttribute("loginUser", authDto);
+            return ResponseEntity.ok(Collections.singletonMap("success", true));
+        } catch (AuthException e) {
+            return ResponseEntity.badRequest().body(Collections.singletonMap("message", e.getMessage()));
+        }
+    }
+    
+    // 로그인
     @PostMapping("/login.au")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> login(@RequestBody AuthDto authDto, HttpSession httpSession, HttpServletResponse response) {
+    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginDto loginDto, HttpSession httpSession, HttpServletResponse response) {
     	try {
-    		AuthDto loginUser = authService.login(authDto);
+    		AuthDto loginUser = authService.login(loginDto);
     		
 //    		if (authDto.isAutoLogin()) {
                 Cookie loginCookie = new Cookie("userId", authDto.getUserId());
@@ -75,6 +91,7 @@ public class AuthController {
     	}
     }
     
+    // 로그아웃
     @PostMapping("/logout.au")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> logout(HttpSession httpSession) {
@@ -115,18 +132,6 @@ public class AuthController {
     	} catch (Exception e) {
             return ResponseEntity.badRequest().body(Collections.singletonMap("message", e.getMessage()));
     	}
-    }
-    
-    @PostMapping("/signup.au")
-    @ResponseBody
-    public ResponseEntity<Map<String, Object>> signUp(@RequestBody AuthDto authDto, HttpSession httpSession) throws Exception {        
-        try {
-            authService.registerAuth(authDto);
-        	httpSession.setAttribute("loginUser", authDto);
-            return ResponseEntity.ok(Collections.singletonMap("success", true));
-        } catch (AuthException e) {
-            return ResponseEntity.badRequest().body(Collections.singletonMap("message", e.getMessage()));
-        }
     }
     
     @DeleteMapping("/deleteAccount.au")
